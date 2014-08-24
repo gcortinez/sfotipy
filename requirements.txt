@@ -1,6 +1,7 @@
 Django==1.6.5
 Pillow==2.5.2
 South==1.0
+django-autofixture==0.9.1
 freeze==0.8.0
 psycopg2==2.5.2
 six==1.7.3
