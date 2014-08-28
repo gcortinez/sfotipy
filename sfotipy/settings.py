@@ -27,6 +27,8 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+GRAPPELLI_ADMIN_TITLE = 'erwilli'
+
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
@@ -39,6 +41,7 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 # Application definition
 
 INSTALLED_APPS = (
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,6 +54,8 @@ INSTALLED_APPS = (
     'artists',
     'userprofiles',
     'autofixture',
+    'django_extensions',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -60,6 +65,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'sfotipy.middleware.PaisMiddleware',
 )
 
 ROOT_URLCONF = 'sfotipy.urls'
@@ -70,7 +76,8 @@ WSGI_APPLICATION = 'sfotipy.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-
+SOUTH_TESTS_MIGRATE = False
+SKIP_SOUTH_TESTS = True
 
 DATABASES = {
     'default': {
@@ -101,6 +108,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+)
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
+STATIC_ROOT = os.path.join(PROJECT_ROOT,'content')
 #MEDIA_ROOT = os.sep.join(os.path.abspath(__file__).split(os.sep)[:2] + ['media'])
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 MEDIA_URL = '/media/'

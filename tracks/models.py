@@ -14,7 +14,7 @@ class Track(models.Model):
     artist = models.ForeignKey(Artist)
 
     def get_absolute_url(self):
-        return '/tracks/' + self.title
+        return '/tracks/%s/' % self.title
 
     def player(self):
         return """<audio controls>
@@ -22,7 +22,8 @@ class Track(models.Model):
         Your browser does not support the audio element.
         </audio>""" % self.track_file.url
 
-    player.allow_tags = True;
+    player.allow_tags = True
+    player.admin_order_field = "track_file"
 
     def __str__(self):
         return self.title

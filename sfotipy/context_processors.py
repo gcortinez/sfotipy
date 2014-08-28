@@ -6,5 +6,11 @@ frases = ["hola", "prueba", "algo", "frase", "django"]
 from tracks.models import Track
 
 def basico(request):
-    tracks = Track.objects.all()
-    return {'titulo' : choice(frases), "tracks": tracks}
+    songs = Track.objects.all()
+    song = None
+
+    for t in songs:
+        if request.path == t.get_absolute_url():
+            song = t
+            break
+    return {'titulo' : choice(frases), "songs": songs, 'selected_song' : song}

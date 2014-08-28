@@ -7,10 +7,11 @@
 <body>
 <sectio>
     <ul>
-
+        {% for song in songs %}
         <li>
-            <a href="/">home</a>
-        </li>
+            <a href="{{ song.get_absolute_url }}">{{ song.title }}</a>
+            {% if song == selected_song %} =========== {% endif %}
+        </li>{% endfor %}
         <li><a href="/tracks/happy">happy</a></li>
     </ul>
     <p>
