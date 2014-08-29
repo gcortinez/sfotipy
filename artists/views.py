@@ -20,5 +20,5 @@ class ArtistViewSet(viewsets.ModelViewSet):
     serializer_class = ArtistSerializer
 
     paginate_by = 1
-    filter_fields = ('id',)
+    filter_fields = ('first_name',)
 

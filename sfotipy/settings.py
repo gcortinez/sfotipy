@@ -37,6 +37,10 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 
 )
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
+}
+
 
 # Application definition
 
@@ -59,14 +63,18 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
     #'sfotipy.middleware.PaisMiddleware',
 )
+
+CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 
 ROOT_URLCONF = 'sfotipy.urls'
 
@@ -89,6 +97,22 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+CACHES = {
+    'default': {
+        'BACKEND' : 'redis_cache.RedisCache',
+        'LOCATION' : 'localhost:6379',
+        'OPTIONS' : {
+            'DB' : 1
+            #'PASSWORD' : 'ALGO',
+            #'PARSER_CLASS' : 'redis.connection.HiredisParser'
+        }
+    }
+}
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -114,7 +138,7 @@ STATICFILES_FINDERS = (
 )
 
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
-STATIC_ROOT = os.path.join(PROJECT_ROOT,'content')
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'content')
 #MEDIA_ROOT = os.sep.join(os.path.abspath(__file__).split(os.sep)[:2] + ['media'])
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 MEDIA_URL = '/media/'
